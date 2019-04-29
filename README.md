@@ -5,6 +5,13 @@
 - installer git pour la synchronisation avec le repository distant. Téléchargable depuis : https://git-scm.com/download/win
 - choisissez l'éditeur de code de votre choix. Recommendation : https://code.visualstudio.com/download
 
+## Optenir le projet en local
+
+- Ouvrez git bash et cloner le projet à l'aide de la commande suivante : 
+```
+git clone 
+```
+
 ## Project setup
 ```
 yarn install
