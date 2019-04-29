@@ -1,4 +1,9 @@
 # gdt
+## Préparationd de l'environnement de dev
+
+- installer node.js. Téléchargable depuis : https://nodejs.org/en/download/
+- installer git pour la synchronisation avec le repository distant. Téléchargable depuis : https://git-scm.com/download/win
+- choisissez l'éditeur de code de votre choix. Recommendation : https://code.visualstudio.com/download
 
 ## Project setup
 ```
