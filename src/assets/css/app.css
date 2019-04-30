@@ -104,9 +104,9 @@ body {
     background-size: cover;
     background-color: #8086a0;
     background-image:
-      linear-gradient(80deg, rgba(143, 239, 114, 0.8), rgba(143, 239, 114, 0) 70.71%),
-      linear-gradient(160deg, rgba(128, 134, 160, 0), rgba(128, 134, 160, 0) 70.71%),
-      linear-gradient(240deg, rgba(251, 251, 251, 0.8), rgba(251, 251, 251, 0) 70.71%)
+    linear-gradient(80deg, rgba(0, 133, 68, 0.8), rgba(0, 133, 68, 0) 70.71%),
+    linear-gradient(160deg, rgba(128, 134, 160, 0), rgba(128, 134, 160, 0) 70.71%),
+    linear-gradient(240deg, rgba(251, 251, 251, 0.8), rgba(251, 251, 251, 0) 70.71%)
 }
 
 @media only screen and (min-width: 420px) {
@@ -646,7 +646,7 @@ body {
 
 .cta-btn:hover {
     color: #008544;
-    background-color: #c51236
+    background-color: rgba(0, 0, 0, 0.5)
 }
 
 .form-input {
@@ -1338,7 +1338,7 @@ body {
     background-size: cover;
     background-color: #8086a0;
     background-image:
-      linear-gradient(80deg, rgba(143, 239, 114, 0.8), rgba(143, 239, 114, 0) 70.71%),
+      linear-gradient(80deg, rgba(0, 133, 68, 0.8), rgba(0, 133, 68, 0) 70.71%),
       linear-gradient(160deg, rgba(128, 134, 160, 0), rgba(128, 134, 160, 0) 70.71%),
       linear-gradient(240deg, rgba(251, 251, 251, 0.8), rgba(251, 251, 251, 0) 70.71%)
 }
@@ -1880,7 +1880,7 @@ body {
 
 .cta-btn:hover {
     color: #008544;
-    background-color: #32334f
+    background-color: rgba(0, 0, 0, 0.5)
 }
 
 .form-input {
@@ -2475,4 +2475,34 @@ h6 {
 }
 .no-margin{
   margin: 0px;
+}
+.margin-auto{
+  margin: auto !important;
+}
+.boa-from {
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: #008544 solid 2px;
+}
+.margin-b-20{
+  margin-bottom: 20px;
+}
+select option{
+  color: #008544;
+  width: 20%;
+}
+.boa-green{
+  color: #008544;
+}
+.btn-rtr{
+  position: absolute;
+}
+.to-right{
+  text-align: right;
+}
+.boa-error{
+  color: red;
+}
+.boa-white{
+  color: white;
 }

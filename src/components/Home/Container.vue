@@ -1,16 +1,25 @@
 <template>
   <main class="boa-content flex-row">
-    <section class="boa-greet">
-      <div class="fx fx-slide-left push-bottom"><h1>Bienvenue dans notre espace réservation</h1></div>
-      <div class="fx fx-slide-left fx-delay-1 push-bottom">
-        Grâce à notre nouvelle application web, vous avez la possibilité de réduire votre temps d'attente dans nos banques en
-        réservant votre ticket de place à l'avance.
+    <transition
+      :duration="800"
+      name="custom-classes-transition"
+      enter-active-class="animated fadeIn"
+      leave-active-class="animated fadeOut"
+      mode="out-in">
+      <div v-if="!($router.history.current.name === 'default')">
+        <button class="cta-btn btn-rtr" @click="$router.go( -1 )">
+          <i class="fa fa-angle-left"></i>
+        </button>
       </div>
-      <div class="fx fx-slide-up fx-delay-2 pad-top">
-        <button class="cta-btn">
-          Faire une reservation
-        </button></div>
-    </section>
+    </transition>
+    <transition
+      :duration="800"
+      name="custom-classes-transition"
+      enter-active-class="animated fadeInLeft"
+      leave-active-class="animated fadeOut"
+      mode="out-in">
+      <router-view/>
+    </transition>
   </main>
 </template>
 

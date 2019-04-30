@@ -19,4 +19,5 @@ export default {
 
 <style>
 @import './assets/css/app.css';
+@import './assets/css/vucal.css';
 </style>
