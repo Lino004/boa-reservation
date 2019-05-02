@@ -1,1 +1,11 @@
-.vuecal__now-line {color: #06c;}
+.vuecal__flex .vuecal__menu {
+    display: none;
+}
+.vuecal__event.lunch {
+    background: repeating-linear-gradient(45deg, transparent, transparent 10px, #f2f2f2 10px, #f2f2f2 20px);/* IE 10+ */
+    color: #999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .vuecal__event.lunch .vuecal__event-time {display: none;align-items: center;}
