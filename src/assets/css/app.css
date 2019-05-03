@@ -2479,7 +2479,7 @@ h6 {
 .margin-auto{
   margin: auto !important;
 }
-.boa-from {
+.boa-form {
   padding: 15px;
   background-color: rgba(0, 0, 0, 0.5);
   border: #008544 solid 2px;
@@ -2505,4 +2505,32 @@ select option{
 }
 .boa-white{
   color: white;
+}
+.boa-lien{
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 15px;
+  color: #008544;
+  cursor: pointer;
+  text-decoration-line: underline;
+  -moz-text-decoration-line: underline;
+}
+.boa-lien:hover{
+  color: #06a759;
+}
+.boa-souligne{
+  text-decoration-line: underline;
+  -moz-text-decoration-line: underline;
+}
+input[type="time"]::-webkit-inner-spin-button, 
+input[type="time"]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+.v-dialog__content--active{
+  background-color: rgba(0, 0, 0, 0.5)
+}
+.v-dialog--active{
+  box-shadow: none !important;
 }

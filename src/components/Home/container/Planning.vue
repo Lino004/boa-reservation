@@ -1,8 +1,9 @@
 <template>
   <div class="boa-greet margin-auto boa-white">
-    <vue-cal
-      editable-events 
-      style="height: 400px"
+    <h5 class="fx fx-slide-left fx-delay-1 text-center margin-b-20 boa-souligne">
+      Planning de réservation</h5>
+    <vue-cal 
+      style="height: 300px"
       locale="fr"
       hide-weekends
       default-view="day"
@@ -17,22 +18,28 @@
 <script>
 import VueCal from 'vue-cal'
 import 'vue-cal/dist/vuecal.css'
+import { db } from '@/firebase';
 
 export default {
   name: 'planning',
   components: { VueCal },
   data () {
     return {
-      events: [
-        {
-          start: '2019-05-01 8:00',
-          end: '2019-05-01 9:00',
-          title: 'Need to go shopping',
-          class: 'leisure',
-          background: true
-        },
-      ]
+      events: [],
     }
+  },
+  methods: {
+    initEvents() {
+      db.ref('events/').on('value', snap => {
+        this.events = Object.values(snap.val());
+      });
+    },
+  },
+  mounted () {
+    this.initEvents();
+  },
+  destroyed () {
+     db.ref('events/').off();
   }
 }
 </script>

@@ -4,6 +4,7 @@ import Home from './views/Home'
 import Default from './components/Home/container/Default'
 import Formulaire from './components/Home/container/Formulaire'
 import Planning from './components/Home/container/Planning'
+import Test from './components/Home/container/Test'
 import Dashboard from './views/Dashboard'
 
 Vue.use(Router)
@@ -31,6 +32,11 @@ export default new Router({
           path: '/planning',
           name: 'planning',
           component: Planning,
+        },
+        {
+          path: '/test',
+          name: 'test',
+          component: Test,
         },
       ],
     },
