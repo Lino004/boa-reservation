@@ -15,7 +15,7 @@
             <v-select
               dark
               color="white--text"
-              v-model="select"
+              v-model="selectPiece"
               :items="pieces"
               :rules="[v => !!v || 'Le choix de la pièce nécessaire']"
               label="Type de pièce :"
@@ -54,6 +54,18 @@
               prepend-icon="account_box"
             ></v-text-field>
 
+            <v-select
+              dark
+              color="white--text"
+              v-model="selectMomentDay"
+              :items="momentDay"
+              :rules="[v => !!v || 'Le choix du moment est nécessaire']"
+              label="Quel jour ?"
+              required
+              prepend-icon="date_range"
+              class=""
+            ></v-select>
+
             <v-dialog
               ref="dialog"
               v-model="modal"
@@ -68,7 +80,6 @@
                   dark
                   color="white--text"
                   v-model="time"
-                  :rules="timeRules"
                   label="Entrez l'heure de votre arrivé"
                   prepend-icon="access_time"
                   readonly
@@ -84,16 +95,15 @@
                 format="24hr"
                 scrollable
                 min="8:15"
-                max="17:00"
+                max="16:45"
                 :allowed-minutes="allowedMinutes"
               >
                 <v-spacer></v-spacer>
                 <v-btn flat color="primary" @click="modal = false">Cancel</v-btn>
-                <v-btn flat color="primary" @click="$refs.dialog.save(time)">OK</v-btn>
+                <v-btn flat color="primary" @click="timeValid()">OK</v-btn>
               </v-time-picker>
             </v-dialog>
           </div>
-
           <div style="text-align: right">
             <v-btn
               :disabled="!validBtn"
@@ -145,25 +155,24 @@ export default {
     prenomRules: [
       v => !!v || 'Le champ prenom est important',
     ],
-    select: null,
+    selectPiece: null,
+    selectMomentDay: null,
     pieces: [
       "Carte d'Identité National",
       'Passport',
     ],
     time: null,
-    timeRules: [
-      v => !!v || 'E-mail is required',
-    ],
     snackbar: {
       value: false,
       message: '',
       type: '',
     },
     modal: false,
+    times: [],
   }),
   computed: {
     validBtn() {
-      if (this.numero && this.nom && this.prenom && this.select && this.time) {
+      if (this.numero && this.nom && this.prenom && this.selectPiece && this.time) {
         return true;
       }
       return false;
@@ -173,6 +182,18 @@ export default {
         case 'xs': return 'headline';
         default: return 'display-1';
       }
+    },
+    momentDay() {
+      const a = moment().locale('fr');
+      const b = moment('17:00', 'hh:mm');
+      if (b.diff(a, 'hour') > 0) {
+        return ["Aujourd'hui", 'Demain'];
+      }
+      return ['Demain'];
+    },
+    dateEvent() {
+      if (this.selectMomentDay === "Aujourd'hui") return moment().locale('fr').format('YYYY-MM-DD');
+      return moment().locale('fr').add(1, 'days').format('YYYY-MM-DD');
     },
   },
   methods: {
@@ -184,7 +205,7 @@ export default {
       this.saveEvent();
       this.snackbarOn({
         value: true,
-        message: `Réservation validée. Veillez vous rendre dans une de nos agence avant ${this.time}.
+        message: `Réservation validée. Veillez vous rendre dans une de nos agence ${this.selectMomentDay} à  ${this.time}.
                   Passer ce délai, votre réservation sera annulée.`,
         type: 'success',
       });
@@ -199,20 +220,21 @@ export default {
       this.$refs.form.reset();
     },
     saveEvent() {
-      const date = moment().format('YYYY-MM-DD');
       const endTime = moment(this.time, 'hh:mm').add(15, 'm').format('hh:mm');
-      db.ref('events/').push({
-        start: `${date} ${this.time}`,
-        end: `${date} ${endTime}`,
+      const idEvent = db.ref().child('events/').push().key;
+      db.ref(`events/${idEvent}`).set({
+        start: `${this.dateEvent} ${this.time}`,
+        end: `${this.dateEvent} ${endTime}`,
         title: 'Place réservée',
         background: true,
         class: 'event-now',
-        carte: this.select,
+        id: idEvent,
+        carte: this.selectPiece,
         num: this.numero,
         nom: this.nom,
         prenom: this.prenom,
         time: this.time,
-        date: moment().format('dddd Do MMMM YYYY'),
+        date: this.dateEvent,
         confirm: true,
       }).catch(() => {
         this.snackbarOn({
@@ -222,6 +244,42 @@ export default {
         });
       });
     },
+    initTimes() {
+      db.ref('events/').on('value', (snap) => {
+        if (snap.val()) {
+          Object.values(snap.val()).forEach((el) => {
+            this.times.push(el.time);
+          });
+        }
+      });
+    },
+    timeValid() {
+      const a = moment().locale('fr');
+      const b = moment(this.time, 'hh:mm');
+      if (b.diff(a, 'minute') > 0) {
+        if (this.times.includes(this.time)) {
+          this.snackbarOn({
+            value: true,
+            message: 'Cette heure est déjà réservée',
+            type: 'red',
+          });
+        } else {
+          this.$refs.dialog.save(this.time);
+        }
+      } else {
+        this.snackbarOn({
+          value: true,
+          message: 'Attention!!! Cette est déjà passée',
+          type: 'red',
+        });
+      }
+    },
+  },
+  mounted() {
+    this.initTimes();
+  },
+  destroyed() {
+    db.ref('events/').off();
   },
 };
 </script>
@@ -246,10 +304,8 @@ export default {
   color: #008544;
 }
 
-@media only screen and (max-height: 568px) {
-  .boa-form__content{
-    max-height: 250px;
-    overflow-y: auto;
-  }
+.boa-form__content{
+  max-height: 250px;
+  overflow-y: auto;
 }
 </style>

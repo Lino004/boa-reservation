@@ -5,7 +5,14 @@
         <v-layout boa-layout-content justify-space-between column>
           <Toolbar/>
           <div>
-            <router-view/>
+            <transition
+              mode="out-in"
+              name="custom-classes-transition"
+              enter-active-class="animated pulse"
+              leave-active-class="animated bounceOutRight"
+            >
+              <router-view/>
+            </transition>
           </div>
           <FooterApp/>
         </v-layout>

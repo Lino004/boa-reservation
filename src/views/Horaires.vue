@@ -50,9 +50,15 @@ export default {
     },
     verifHour() {
       if (moment().format('mm') % 15 === 0) {
-        console.log('yes');
+        const a = moment().locale('fr').format('hh:mm');
+        const el = this.events.find(e => e.time === a);
+        if (el) {
+          db.ref('events/').child(el.id).update({
+            title: 'Place Annulée',
+            class: 'event-pass',
+          });
+        }
       }
-      console.log('no');
     },
   },
   mounted() {
@@ -94,12 +100,6 @@ export default {
 .vuecal__event-time, .vuecal__event-title{
   color: white;
   font-size: 15px;
-}
-/*.vuecal__event--background{
-  background-color: rgba(0, 133, 64, 0.5) !important;
-}*/
-.vuecal__arrow{
-  display: none;
 }
 .event-now{
   background-color: rgba(0, 133, 64, 0.5) !important;
