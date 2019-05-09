@@ -168,7 +168,7 @@ export default {
       type: '',
     },
     modal: false,
-    times: [],
+    dateTimes: [],
   }),
   computed: {
     validBtn() {
@@ -205,7 +205,7 @@ export default {
       this.saveEvent();
       this.snackbarOn({
         value: true,
-        message: `Réservation validée. Veillez vous rendre dans une de nos agence ${this.selectMomentDay} à  ${this.time}.
+        message: `Réservation validée. Veillez vous rendre dans une de nos agence ${this.selectMomentDay} avant  ${this.time}.
                   Passer ce délai, votre réservation sera annulée.`,
         type: 'success',
       });
@@ -248,16 +248,16 @@ export default {
       db.ref('events/').on('value', (snap) => {
         if (snap.val()) {
           Object.values(snap.val()).forEach((el) => {
-            this.times.push(el.time);
+            this.dateTimes.push(el.start);
           });
         }
       });
     },
     timeValid() {
       const a = moment().locale('fr');
-      const b = moment(this.time, 'hh:mm');
-      if (b.diff(a, 'minute') > 0) {
-        if (this.times.includes(this.time)) {
+      const b = moment(`${this.dateEvent}  ${this.time}`, 'YYYY-MM-DD hh:mm');
+      if (b.diff(a) > 0) {
+        if (this.dateTimes.includes(b.format('YYYY-MM-DD hh:mm'))) {
           this.snackbarOn({
             value: true,
             message: 'Cette heure est déjà réservée',
@@ -269,7 +269,7 @@ export default {
       } else {
         this.snackbarOn({
           value: true,
-          message: 'Attention!!! Cette est déjà passée',
+          message: 'Attention!!! Cette heure est déjà passée',
           type: 'red',
         });
       }

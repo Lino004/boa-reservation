@@ -22,7 +22,6 @@ import VueCal from 'vue-cal';
 import 'vue-cal/dist/vuecal.css';
 import { db } from '@/firebase';
 import moment from 'moment';
-import { setInterval } from 'timers';
 
 export default {
   name: 'horaires',
@@ -45,25 +44,25 @@ export default {
       db.ref('events/').on('value', (snap) => {
         if (snap.val()) {
           this.events = Object.values(snap.val());
+          this.verifHour();
         }
       });
     },
     verifHour() {
-      if (moment().format('mm') % 15 === 0) {
-        const a = moment().locale('fr').format('hh:mm');
-        const el = this.events.find(e => e.time === a);
-        if (el) {
+      const a = moment().locale('fr');
+      this.events.forEach((el) => {
+        const b = moment(el.start, 'YYYY-MM-DD hh:mm');
+        if (b.diff(a) < 0) {
           db.ref('events/').child(el.id).update({
             title: 'Place Annulée',
             class: 'event-pass',
           });
         }
-      }
+      });
     },
   },
   mounted() {
     this.initEvents();
-    setInterval(this.verifHour, 60000);
   },
   destroyed() {
     db.ref('events/').off();
