@@ -106,7 +106,7 @@
           </div>
           <div style="text-align: right">
             <v-btn
-              :disabled="!validBtn"
+              :disabled="false"
               color="success"
               @click="validate"
             >
@@ -139,6 +139,7 @@
 import { db } from '@/firebase';
 import moment from 'moment';
 import { mapActions } from 'vuex';
+
 
 export default {
   name: 'reservation',
@@ -220,8 +221,10 @@ export default {
       this.$refs.form.reset();
     },
     saveEvent() {
-      const endTime = moment(this.time, 'hh:mm').add(15, 'm').format('hh:mm');
-      const idEvent = db.ref().child('events/').push().key;
+      const locale = moment.locale('fr');
+      const endTime = moment(this.time, 'hh:mm').add(15, 'm').locale('fr');
+      console.log(endTime);
+      /*const idEvent = db.ref().child('events/').push().key;
       db.ref(`events/${idEvent}`).set({
         start: `${this.dateEvent} ${this.time}`,
         end: `${this.dateEvent} ${endTime}`,
@@ -242,7 +245,7 @@ export default {
           message: 'Erreur serveur E',
           type: 'red',
         });
-      });
+      });*/
     },
     initTimes() {
       db.ref('events/').on('value', (snap) => {
@@ -285,27 +288,5 @@ export default {
 </script>
 
 <style>
-.boa-form {
-  padding: 10px;
-  background-color: rgba(0, 0, 0, 0.5);
-  border: #008544 solid 2px;
-}
-.boa-souligne{
-  text-decoration-line: underline;
-  -moz-text-decoration-line: underline;
-}
-.v-select__selection{
-  color: #008544;
-}
-.v-text-field input{
-  color: #008544 !important;
-}
-.v-input__icon .v-icon{
-  color: #008544;
-}
 
-.boa-form__content{
-  max-height: 250px;
-  overflow-y: auto;
-}
 </style>

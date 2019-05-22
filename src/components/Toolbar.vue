@@ -4,15 +4,19 @@
         <img class="logo" src="@/assets/logo.png" alt="Acceuil" height="30" srcset="">
       </v-toolbar-title>
       <v-spacer></v-spacer>
+        <!--
       <v-toolbar-items class="hidden-xs-only">
-        <v-btn to="/" flat>
+        <v-btn small to="/" flat>
           Acceuil<v-icon class="ml-1" right>home</v-icon>
         </v-btn>
-        <v-btn to="/reservation" flat>
-          Réservation<v-icon class="ml-1" right>list</v-icon>
+        <v-btn small to="/reservation" flat>
+          Consultation<v-icon class="ml-1" right>search</v-icon>
         </v-btn>
-        <v-btn to="/horaires" flat>
-          Horaires<v-icon class="ml-1" right>timer</v-icon>
+        <v-btn small to="/reservation" flat>
+          Tableau de bord<v-icon class="ml-1" right>list</v-icon>
+        </v-btn>
+        <v-btn small @click="deconnected()" flat>
+          Déconnexion<v-icon class="ml-1" right>lock</v-icon>
         </v-btn>
       </v-toolbar-items>
       <v-menu>
@@ -27,26 +31,43 @@
           </v-list-tile>
           <v-list-tile>
             <v-list-tile-title>
-              <router-link to="/horaires">Horaires</router-link>
+              <router-link to="/horaires">Consultation</router-link>
             </v-list-tile-title>
           </v-list-tile>
           <v-list-tile>
             <v-list-tile-title>
-              <router-link to="/reservation">Réservation</router-link>
+              <router-link to="/horaires">Tableau de bord</router-link>
+            </v-list-tile-title>
+          </v-list-tile>
+          <v-list-tile>
+            <v-list-tile-title>
+              <router-link to="/reservation">Déconnexion</router-link>
             </v-list-tile-title>
           </v-list-tile>
         </v-list>
       </v-menu>
+        -->
   </v-toolbar>
 </template>
 
 <script>
+import { auth } from '@/firebase';
+
 export default {
   name: 'toolbar',
   computed: {
     route() {
       return this.$router.history.current.name;
     },
+  },
+  methods: {
+    deconnected() {
+      auth.signOut().then(function() {
+        console.log('Déconnection réussie');
+      }).catch(function(error) {
+        console.log('Erreur de déconnection');
+      });
+    }
   },
   mounted() {},
 };

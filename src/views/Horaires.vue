@@ -51,7 +51,7 @@ export default {
     verifHour() {
       const a = moment().locale('fr');
       this.events.forEach((el) => {
-        const b = moment(el.start, 'YYYY-MM-DD hh:mm');
+        const b = moment(el.end, 'YYYY-MM-DD hh:mm');
         if (b.diff(a) < 0) {
           db.ref('events/').child(el.id).update({
             title: 'Place Annulée',
