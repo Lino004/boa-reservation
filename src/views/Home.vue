@@ -8,16 +8,19 @@
         de résolution mise en place pour vous.
       </div>
       <v-btn
-        to="reservation"
+        to="/consultation"
         round
         color="#008544"
         class="ma-0 white--text"
-      >Faire une recherche</v-btn>
+      >
+        Faire une recherche
+      </v-btn>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
+import { auth } from '@/firebase';
 
 export default {
   name: 'home',
@@ -28,6 +31,11 @@ export default {
         default: return 'display-2';
       }
     },
+  },
+  methods: {
+  },
+  beforeMount() {
+    if (!auth.currentUser) this.$router.push('/connexion');
   },
 };
 </script>

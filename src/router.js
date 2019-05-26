@@ -1,29 +1,22 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
-import Horaires from './views/Horaires.vue';
-import Reservation from './views/Reservation.vue';
+import Consultation from './views/Consultation.vue';
+import Dashboard from './views/Dashboard.vue';
 import Connexion from './views/Connexion.vue';
 import Inscription from './views/Inscription.vue';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   routes: [
     {
+      path: '*',
+      redirect: '/connexion',
+    },
+    {
       path: '/',
-      name: 'home',
-      component: Home,
-    },
-    {
-      path: '/horaires',
-      name: 'horaires',
-      component: Horaires,
-    },
-    {
-      path: '/reservation',
-      name: 'reservation',
-      component: Reservation,
+      redirect: '/connexion',
     },
     {
       path: '/connexion',
@@ -36,8 +29,21 @@ export default new Router({
       component: Inscription,
     },
     {
-      path: '*',
-      redirect: '/',
+      path: '/home',
+      name: 'home',
+      component: Home,
+    },
+    {
+      path: '/consultation',
+      name: 'consultation',
+      component: Consultation,
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: Dashboard,
     },
   ],
 });
+
+export default router;

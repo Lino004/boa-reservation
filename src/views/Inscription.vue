@@ -137,10 +137,10 @@ export default {
       this.snackbar.message = data.message;
     },
     saveUser(data) {
-      db.ref('users/' + data.uid).set({
+      db.ref(`users/${data.uid}`).set({
         email: data.email,
         id: data.uid,
-        profile : 'aucun',
+        profile: 'aucun',
       });
     },
     async validate() {

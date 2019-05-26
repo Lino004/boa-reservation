@@ -84,6 +84,9 @@ html {
   background-color: rgba(0, 0, 0, 0.5);
   border: #008544 solid 2px;
 }
+.boa-dash-bg {
+  background-color: rgba(0, 0, 0, 0.5);
+}
 .boa-form__content{
   max-height: 250px;
   overflow-y: auto;
@@ -92,9 +95,20 @@ html {
   text-decoration-line: underline;
   -moz-text-decoration-line: underline;
 }
-.v-text-field input{
-  color: #008544 !important;
-}
 .v-input__icon .v-icon{
   color: #008544;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: green !important; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
 }

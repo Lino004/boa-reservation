@@ -15,12 +15,13 @@
 
             <v-text-field
               dark
-              color="white--text"
+              color="green darken-2"
               v-model="email"
               :rules="emailRules"
               label="Entrez votre email"
               required
               prepend-icon="email"
+              class="boa-green"
             ></v-text-field>
 
             <v-text-field
@@ -29,13 +30,14 @@
               :append-icon="showPass ? 'visibility' : 'visibility_off'"
               :rules="[passwordRules.required, passwordRules.min]"
               :type="showPass ? 'text' : 'password'"
-              color="white--text"
+              color="green darken-2"
               name="input-10-1"
               label="Entrer votre mot de passe"
               hint="Au moins 8 caractères"
               counter
               @click:append="showPass = !showPass"
               prepend-icon="lock"
+              class="boa-green"
             ></v-text-field>
 
           </div>
@@ -73,6 +75,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import { auth } from '@/firebase';
 
 export default {
@@ -110,6 +113,10 @@ export default {
     },
   },
   methods: {
+    ...mapActions([
+      'updateLoading',
+      'updateUser',
+    ]),
     snackbarOn(data) {
       this.snackbar.value = data.value;
       this.snackbar.type = data.type;
@@ -117,8 +124,9 @@ export default {
     },
     async validate() {
       try {
+        this.updateLoading(true);
         if (this.$refs.form.validate()) {
-          const user = await auth.signInWithEmailAndPassword(this.email, this.password);
+          await auth.signInWithEmailAndPassword(this.email, this.password);
           this.snackbarOn({
             value: true,
             message: 'Connexion réussie',
@@ -126,9 +134,10 @@ export default {
           });
           this.email = '';
           this.password = '';
-          this.password2 = '';
-          this.$router.push('/connexion');
+          this.$router.push('/home');
+          this.updateLoading(false);
         } else {
+          this.updateLoading(false);
           this.snackbarOn({
             value: true,
             message: 'Champs manquant. Veillez vérifier',
@@ -136,6 +145,7 @@ export default {
           });
         }
       } catch (error) {
+        this.updateLoading(false);
         this.snackbarOn({
           value: true,
           message: error.message,
@@ -143,6 +153,9 @@ export default {
         });
       }
     },
+  },
+  beforeMount() {
+    if (auth.currentUser) this.$router.push('/home');
   },
 };
 </script>

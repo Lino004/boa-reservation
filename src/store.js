@@ -3,21 +3,33 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
-    user: {},
+    user: null,
+    loading: false,
   },
   getters: {
     getUser: state => state.user,
+    getLoading: state => state.loading,
   },
   mutations: {
     UPDATE_USER: (state, data) => {
-      Object.assign(state.user, data);
+      // eslint-disable-next-line no-param-reassign
+      state.user = data;
+    },
+    UPDATE_LOADING: (state, data) => {
+      // eslint-disable-next-line no-param-reassign
+      state.loading = data;
     },
   },
   actions: {
     updateUser: (state, data) => {
       state.commit('UPDATE_USER', data);
     },
+    updateLoading: (state, data) => {
+      state.commit('UPDATE_LOADING', data);
+    },
   },
 });
+
+export default store;
