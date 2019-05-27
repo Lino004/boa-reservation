@@ -33,7 +33,6 @@
         <DashUser v-if="menuDash === 1"/>
       </v-container>
     </v-flex>
-    <ModalAddPCS :dialog="addPCSdialog"/>
   </v-layout>
 </template>
 
@@ -41,14 +40,12 @@
 import { auth } from '@/firebase';
 import DashPCS from '@/components/dashbord/DashPCS.vue';
 import DashUser from '@/components/dashbord/DashUser.vue';
-import ModalAddPCS from '@/components/dashbord/ModalAddPCS.vue';
 
 export default {
   name: 'dashboad',
   components: {
     DashPCS,
     DashUser,
-    ModalAddPCS,
   },
   computed: {
     fontSizeTitle() {
@@ -80,7 +77,6 @@ export default {
     return {
       menuDash: 0,
       height: '',
-      addPCSdialog: false,
     };
   },
   beforeMount() {

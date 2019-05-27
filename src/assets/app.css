@@ -70,6 +70,9 @@ html {
 .boa-green{
   color: #008544;
 }
+.trans-boa-green{
+  color: rgba(0, 133, 68, .3);
+}
 .v-list__tile__title a{
   color: white !important;
   text-decoration-line: none;
@@ -97,6 +100,19 @@ html {
 }
 .v-input__icon .v-icon{
   color: #008544;
+}
+.v-card--reveal {
+  align-items: center;
+  bottom: 0;
+  justify-content: center;
+  opacity: .3;
+  position: absolute;
+  width: 100%;
+}
+.v-btn--active:before,
+.v-btn:hover:before,
+.v-btn:focus:before {
+  background-color: green;
 }
 /* Track */
 ::-webkit-scrollbar-track {

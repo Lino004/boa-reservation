@@ -16,6 +16,26 @@
             <v-text-field
               dark
               color="white--text"
+              v-model="nom"
+              :rules="nomRules"
+              label="Entrez votre nom"
+              required
+              prepend-icon="account_circle"
+            ></v-text-field>
+
+            <v-text-field
+              dark
+              color="white--text"
+              v-model="prenom"
+              :rules="prenomRules"
+              label="Entrez votre prenom"
+              required
+              prepend-icon="account_circle"
+            ></v-text-field>
+
+            <v-text-field
+              dark
+              color="white--text"
               v-model="email"
               :rules="emailRules"
               label="Entrez votre email"
@@ -93,6 +113,14 @@ import { auth, db } from '@/firebase';
 export default {
   name: 'inscription',
   data: () => ({
+    nom: '',
+    nomRules: [
+      v => !!v || 'Un nom est requis',
+    ],
+    prenom: '',
+    prenomRules: [
+      v => !!v || 'Un prenom est requis',
+    ],
     email: '',
     emailRules: [
       v => !!v || 'Un e-mail est requis',
@@ -141,11 +169,14 @@ export default {
         email: data.email,
         id: data.uid,
         profile: 'aucun',
+        nom: this.nom,
+        prenom: this.prenom,
       });
     },
     async validate() {
       try {
-        if (this.$refs.form.validate() && (this.password2 === this.password)) {
+        if (this.$refs.form.validate() && (this.password2 === this.password)
+            && this.nom && this.prenom) {
           const data = await auth.createUserWithEmailAndPassword(this.email, this.password2);
           this.saveUser(data.user);
           this.snackbarOn({
@@ -156,7 +187,7 @@ export default {
           this.email = '';
           this.password = '';
           this.password2 = '';
-          this.$router.push('/connexion');
+          this.$router.push('/home');
         } else {
           this.snackbarOn({
             value: true,
@@ -172,6 +203,9 @@ export default {
         });
       }
     },
+  },
+  beforeMount() {
+    if (auth.currentUser) this.$router.push('/home');
   },
 };
 </script>

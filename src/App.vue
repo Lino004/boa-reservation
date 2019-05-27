@@ -19,6 +19,7 @@
       </v-layout>
     </v-container>
     <Loading/>
+    <Snackbar/>
   </v-app>
 </template>
 
@@ -28,6 +29,7 @@ import { auth, db } from '@/firebase';
 import Toolbar from '@/components/Toolbar.vue';
 import FooterApp from '@/components/FooterApp.vue';
 import Loading from '@/components/Loading.vue';
+import Snackbar from '@/components/Snackbar.vue';
 
 export default {
   name: 'App',
@@ -35,6 +37,7 @@ export default {
     Toolbar,
     FooterApp,
     Loading,
+    Snackbar,
   },
   data() {
     return {

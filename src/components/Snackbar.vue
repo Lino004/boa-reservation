@@ -1,16 +1,16 @@
 <template>
   <v-snackbar
-    v-model="snackbar.value"
+    :value.sync="getSnackbar.value"
     bottom
     :timeout="10000"
-    :color="snackbar.type"
+    :color="getSnackbar.type"
     multi-line
   >
-    {{ snackbar.message }}
+    {{ getSnackbar.message }}
     <v-btn
       color="white"
       flat
-      @click="snackbar.value = false"
+      @click="getSnackbar.value = false"
     >
       Fermer
     </v-btn>
@@ -18,10 +18,16 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'snackbar',
-  props: ['snackbar'],
-}
+  computed: {
+    ...mapGetters([
+      'getSnackbar',
+    ]),
+  },
+};
 </script>
 
 <style>
